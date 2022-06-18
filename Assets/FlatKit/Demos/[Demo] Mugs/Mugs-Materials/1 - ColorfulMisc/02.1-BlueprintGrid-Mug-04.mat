@@ -2,15 +2,22 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 02.1-BlueprintGrid-Mug-04
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
-  m_ShaderKeywords: DR_SPECULAR_ON _CELPRIMARYMODE_SINGLE _FLAT_RIM_ENABLED _FLAT_SHADOWS_ENABLED
-    _FLAT_SPECULAR_ENABLED
+  m_ValidKeywords:
+  - DR_SPECULAR_ON
+  - _CELPRIMARYMODE_SINGLE
+  - _TEXTUREBLENDINGMODE_MULTIPLY
+  - _UNITYSHADOWMODE_MULTIPLY
+  m_InvalidKeywords:
+  - _FLAT_RIM_ENABLED
+  - _FLAT_SHADOWS_ENABLED
+  - _FLAT_SPECULAR_ENABLED
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -64,11 +71,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _Blend: 0
     - _BumpScale: 1
     - _CelExtraEnabled: 0
     - _CelNumSteps: 3
     - _CelPrimaryMode: 1
+    - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -99,12 +110,16 @@ Material:
     - _GradientStart: 1.17
     - _GradientTop: 10
     - _LightContribution: 0.5
+    - _LightmapDirectionPitch: 0
+    - _LightmapDirectionYaw: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _OverrideLightmapDir: 0
     - _OverrideShadows: 1
     - _OverrideShadowsEnabled: 1
     - _Parallax: 0.02
+    - _QueueOffset: 0
     - _RimEnabled: 0
     - _SecondaryColor: 1
     - _SecondaryColorEnabled: 1
@@ -118,11 +133,14 @@ Material:
     - _SpecularEnabled: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Surface: 0
+    - _TextureBlendingMode: 0
     - _TextureImpact: 0
     - _UVSec: 0
     - _UnityShadowMode: 1
     - _UnityShadowPower: 0.2
     - _UnityShadowSharpness: 1
+    - _VertexColorsEnabled: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 1}
@@ -138,4 +156,6 @@ Material:
     - _EmissionColor: {r: 4.9245777, g: 0, b: 0, a: 1}
     - _FlatRimColor: {r: 0.52358484, g: 0.6375387, b: 1, a: 1}
     - _FlatSpecularColor: {r: 0.41509432, g: 0.40795293, b: 0.33090067, a: 1}
+    - _LightmapDirection: {r: 0, g: 1, b: 0, a: 0}
     - _UnityShadowColor: {r: 0.65, g: 0.65, b: 0.65, a: 1}
+  m_BuildTextureStacks: []
