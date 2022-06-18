@@ -59,11 +59,21 @@ public class GameManager : MonoBehaviour
         LoadReachedLevel();
     }
 
+    private void Update()
+    {
+        // USING FOR TEST PHASE
+
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            LoadReachedLevel();
+        }
+    }
+
     public void LoadReachedLevel()
     {
         CurrentGameState = GameState.BeforeGameplay;
         MMVibrationManager.TransientHaptic(1, 0.1f, true, this);
-        SceneManager.LoadScene(PlayerPrefs.GetInt("reachedLevel", 2));
+        SceneManager.LoadScene(PlayerPrefs.GetInt("reachedLevel", 1));
         _levelText.text = "Level " + PlayerPrefs.GetInt("fakeLevelNumber", 1).ToString();
         _levelCompletedUI.SetActive(false);
         _gameOverUI.SetActive(false);
@@ -85,9 +95,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(SetUIMenu(_beforeGameplayUI, 3f, false));
         StartCoroutine(SetUIMenu(_gameOverUI, 3f, false));
 
-        if (SceneManager.sceneCountInBuildSettings > PlayerPrefs.GetInt("reachedLevel", 2) + 1)
+        if (SceneManager.sceneCountInBuildSettings > PlayerPrefs.GetInt("reachedLevel", 1) + 1)
         {
-            PlayerPrefs.SetInt("reachedLevel", PlayerPrefs.GetInt("reachedLevel", 2) + 1);
+            PlayerPrefs.SetInt("reachedLevel", PlayerPrefs.GetInt("reachedLevel", 1) + 1);
         }
         else
         {
@@ -96,13 +106,13 @@ public class GameManager : MonoBehaviour
                 _firstLevelAfterLoop = 1;
             }
 
-            if (SceneManager.sceneCountInBuildSettings <= _firstLevelAfterLoop + 1)
+            if (SceneManager.sceneCountInBuildSettings <= _firstLevelAfterLoop)
             {
-                PlayerPrefs.SetInt("reachedLevel", 2);
+                PlayerPrefs.SetInt("reachedLevel", 1);
             }
             else
             {
-                PlayerPrefs.SetInt("reachedLevel", _firstLevelAfterLoop + 1);
+                PlayerPrefs.SetInt("reachedLevel", _firstLevelAfterLoop);
             }
         }
     }
