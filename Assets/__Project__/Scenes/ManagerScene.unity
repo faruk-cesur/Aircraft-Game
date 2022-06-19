@@ -4690,7 +4690,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &9185552491765255724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4863,6 +4863,7 @@ MonoBehaviour:
   _goldImage: {fileID: 751254049}
   _goldSpriteParent: {fileID: 254961435}
   CurrentGold: 0
+  IsGameEnded: 0
 --- !u!4 &9185552491778161445
 Transform:
   m_ObjectHideFlags: 0

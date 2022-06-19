@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     [BoxGroup("SPRITES"), SerializeField] private GameObject _goldSpriteParent;
 
     [HideInInspector] public int CurrentGold;
+    [HideInInspector] public bool IsGameEnded;
 
     private void Awake()
     {
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         LoadReachedLevel();
     }
-    
+
     public void LoadReachedLevel()
     {
         CurrentGameState = GameState.BeforeGameplay;
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour
         _levelText.transform.parent.gameObject.SetActive(true);
         CurrentGold = 0;
         PrintGoldText();
+        IsGameEnded = false;
     }
 
     public void LevelCompleted()
@@ -80,10 +82,10 @@ public class GameManager : MonoBehaviour
         MMVibrationManager.TransientHaptic(1, 0.1f, true, this);
         PlayerPrefs.SetInt("TotalGold", PlayerPrefs.GetInt("TotalGold", 0) + CurrentGold);
         PlayerPrefs.SetInt("fakeLevelNumber", PlayerPrefs.GetInt("fakeLevelNumber", 1) + 1);
-        StartCoroutine(SetUIMenu(_levelCompletedUI, 3f, true));
-        StartCoroutine(SetUIMenu(_gameplayUI, 3f, false));
-        StartCoroutine(SetUIMenu(_beforeGameplayUI, 3f, false));
-        StartCoroutine(SetUIMenu(_gameOverUI, 3f, false));
+        StartCoroutine(SetUIMenu(_levelCompletedUI, 1f, true));
+        StartCoroutine(SetUIMenu(_gameplayUI, 1f, false));
+        StartCoroutine(SetUIMenu(_beforeGameplayUI, 1f, false));
+        StartCoroutine(SetUIMenu(_gameOverUI, 1f, false));
 
         if (SceneManager.sceneCountInBuildSettings > PlayerPrefs.GetInt("reachedLevel", 1) + 1)
         {
@@ -111,14 +113,15 @@ public class GameManager : MonoBehaviour
     {
         CurrentGameState = GameState.GameOver;
         MMVibrationManager.TransientHaptic(1, 0.1f, true, this);
-        StartCoroutine(SetUIMenu(_gameOverUI, 3f, true));
-        StartCoroutine(SetUIMenu(_gameplayUI, 3f, false));
-        StartCoroutine(SetUIMenu(_beforeGameplayUI, 3f, false));
-        StartCoroutine(SetUIMenu(_levelCompletedUI, 3f, false));
+        StartCoroutine(SetUIMenu(_gameOverUI, 2f, true));
+        StartCoroutine(SetUIMenu(_gameplayUI, 2f, false));
+        StartCoroutine(SetUIMenu(_beforeGameplayUI, 2f, false));
+        StartCoroutine(SetUIMenu(_levelCompletedUI, 2f, false));
     }
 
     public void Gameplay()
     {
+        IsGameEnded = false;
         CurrentGameState = GameState.Gameplay;
         _levelText.transform.parent.gameObject.SetActive(false);
         _gameplayUI.SetActive(true);

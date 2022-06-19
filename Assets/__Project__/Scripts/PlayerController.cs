@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
 
     [ReadOnly] public ControllerTypes ControllerType;
     [BoxGroup("Player Script Setup"), SerializeField] private Player _player;
-    [BoxGroup("Player Script Setup"), SerializeField] private PlayerTrigger _playerTrigger;
 
     [BoxGroup("Controller Setup"), SerializeField] private Rigidbody _rigidbody;
     [BoxGroup("Controller Setup"), SerializeField] private Slider _acceleratorPedal;
@@ -28,11 +27,6 @@ public class PlayerController : MonoBehaviour
 
     private RaycastHit _hitGround;
     private bool _isGravityActive;
-
-    private void Start()
-    {
-        //ControllerType = ControllerTypes.Flying;
-    }
 
     private void FixedUpdate()
     {
@@ -53,13 +47,6 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        // USING FOR TEST PHASE
-
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SceneManager.LoadScene(PlayerPrefs.GetInt("reachedLevel", 1));
-        }
-
         switch (ControllerType)
         {
             case ControllerTypes.OnWheels:
@@ -76,6 +63,7 @@ public class PlayerController : MonoBehaviour
                 RaycastGround();
                 break;
             case ControllerTypes.Autopilot:
+                RaycastGround();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -86,6 +74,7 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.Instance.Gameplay();
     }
+
     private void AccelerationPedal()
     {
         if (_player.WheelSpeed < 0)
@@ -145,15 +134,15 @@ public class PlayerController : MonoBehaviour
 
     private void RotateAircraftFlying()
     {
-        transform.Rotate(((Vector3.up * (_floatingJoystick.Direction.x)) + (-Vector3.right * _floatingJoystick.Direction.y)) / 10); // Rotating Parent Object According To Joystick
+        transform.Rotate(((Vector3.up * (_floatingJoystick.Direction.x)) + (-Vector3.right * _floatingJoystick.Direction.y))); // Rotating Parent Object According To Joystick
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly for parent object
-        _aircraftModel.Rotate((-Vector3.forward * _floatingJoystick.Direction.x) / 5);
+        _aircraftModel.Rotate((-Vector3.forward * _floatingJoystick.Direction.x));
         _aircraftModel.localRotation = Quaternion.Lerp(_aircraftModel.localRotation, Quaternion.Euler(_aircraftModel.localEulerAngles.x, _aircraftModel.localEulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly
     }
 
     private void RotateAircraftOnWheels()
     {
-        transform.Rotate((-Vector3.right * _floatingJoystick.Direction.y) / 10); // Rotating Parent Object According To Joystick
+        transform.Rotate((-Vector3.right * _floatingJoystick.Direction.y)); // Rotating Parent Object According To Joystick
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly for parent object
     }
 
@@ -218,7 +207,6 @@ public class PlayerController : MonoBehaviour
 
         if (_hitGround.transform)
         {
-            Debug.DrawRay(transform.position + new Vector3(0, -1, 0), transform.forward * 5, Color.red);
             _isGravityActive = false;
             //transform.position = Vector3.Lerp(transform.position,new Vector3(transform.position.x, _hitGround.transform.position.y, transform.position.z),Time.deltaTime * 2); // Get position same with road
             _aircraftModel.localRotation = Quaternion.Lerp(_aircraftModel.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime * 2); // Rotation.Z is resetting smoothly
@@ -228,5 +216,10 @@ public class PlayerController : MonoBehaviour
         {
             _isGravityActive = true;
         }
+    }
+
+    public void GameEnded()
+    {
+        _rigidbody.isKinematic = true;
     }
 }
