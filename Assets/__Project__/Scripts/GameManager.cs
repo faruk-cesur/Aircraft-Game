@@ -58,17 +58,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         LoadReachedLevel();
     }
-
-    private void Update()
-    {
-        // USING FOR TEST PHASE
-
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            LoadReachedLevel();
-        }
-    }
-
+    
     public void LoadReachedLevel()
     {
         CurrentGameState = GameState.BeforeGameplay;
