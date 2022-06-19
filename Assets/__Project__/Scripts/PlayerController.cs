@@ -82,6 +82,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void PulledUpPedal()
+    {
+        GameManager.Instance.Gameplay();
+    }
     private void AccelerationPedal()
     {
         if (_player.WheelSpeed < 0)
