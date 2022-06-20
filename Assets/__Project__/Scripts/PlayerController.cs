@@ -73,6 +73,10 @@ public class PlayerController : MonoBehaviour
     public void PulledUpPedal()
     {
         GameManager.Instance.Gameplay();
+        if (!_player.JetSound.isPlaying)
+        {
+            _player.JetSound.Play();
+        }
     }
 
     private void AccelerationPedal()
@@ -80,6 +84,7 @@ public class PlayerController : MonoBehaviour
         if (_player.WheelSpeed < 0)
         {
             _player.WheelSpeed = 0;
+            _player.JetSound.Stop();
         }
         else
         {
@@ -97,6 +102,7 @@ public class PlayerController : MonoBehaviour
         if (_player.FlyingSpeed < 0)
         {
             _player.FlyingSpeed = 0;
+            _player.JetSound.Stop();
         }
         else
         {

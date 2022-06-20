@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     [BoxGroup("TEXT SETUP"), SerializeField] private TextMeshProUGUI _levelText;
     [BoxGroup("TEXT SETUP"), SerializeField] private TextMeshProUGUI _totalGoldText;
     [BoxGroup("TEXT SETUP"), SerializeField] private TextMeshProUGUI _earnedGoldText;
+    [BoxGroup("TEXT SETUP"), SerializeField] private TextMeshProUGUI _earnedScore;
 
     [BoxGroup("SPRITES"), SerializeField] private List<GameObject> _goldUISpriteList;
     [BoxGroup("SPRITES"), SerializeField] private GameObject _goldImage;
@@ -142,6 +143,11 @@ public class GameManager : MonoBehaviour
         {
             _totalGoldText.text = (CurrentGold + PlayerPrefs.GetInt("TotalGold")).ToString();
         }
+    }
+
+    public void PrintScoreText(int score)
+    {
+        _earnedScore.text = "Score: " + score;
     }
 
     public void CollectGoldAnimation()

@@ -19,6 +19,9 @@ public class Player : MonoBehaviour
 
     [BoxGroup("SETUP")] public ParticleSystem CrashParticle;
     [BoxGroup("SETUP")] public ParticleSystem CheckpointParticle;
+    [BoxGroup("SETUP")] public ParticleSystem ConfettiParticle;
+    [BoxGroup("SETUP")] public AudioSource JetSound;
+    [BoxGroup("SETUP")] public AudioSource CheckpointSound;
     [BoxGroup("SETUP")] public TextMeshProUGUI ScoreText;
     [BoxGroup("SETUP")] public TextMeshProUGUI WarningText;
     [BoxGroup("SETUP")] public GameObject PlayerUI;
@@ -58,6 +61,7 @@ public class Player : MonoBehaviour
             case PlayerController.ControllerTypes.Autopilot:
                 _speedText.text = "Speed: " + (int)(FlyingSpeed / 50);
                 ScoreText.text = "Score: " + CheckpointScore;
+                GameManager.Instance.PrintScoreText(CheckpointScore);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -68,15 +72,20 @@ public class Player : MonoBehaviour
     {
         while (true)
         {
-            if (CheckpointScore <= 0)
+            if (GameManager.Instance.CurrentGameState == GameState.Gameplay)
             {
-                yield return null;
+                if (CheckpointScore <= 0)
+                {
+                    yield return null;
+                }
+                else
+                {
+                    CheckpointScore--;
+                    yield return new WaitForSeconds(ScoreDecreaseSpeed);
+                }
             }
-            else
-            {
-                CheckpointScore--;
-                yield return new WaitForSeconds(ScoreDecreaseSpeed);
-            }
+
+            yield return null;
         }
     }
 
@@ -89,7 +98,12 @@ public class Player : MonoBehaviour
             _playerController.GameEnded();
             PlayerUI.SetActive(false);
             transform.DOLookAt(new Vector3(-2.8f, 0, 100), 3f);
-            transform.DOMove(new Vector3(-2.8f, 0, 100), 5f).OnComplete(() => GameManager.Instance.LevelCompleted());
+            transform.DOMove(new Vector3(-2.8f, 0, 100), 5f).OnComplete(() =>
+            {
+                JetSound.Stop();
+                ConfettiParticle.Play();
+                GameManager.Instance.LevelCompleted();
+            });
         }
     }
 
@@ -108,6 +122,7 @@ public class Player : MonoBehaviour
                 CrashParticle.GetComponent<AudioSource>().Play();
                 PlayerUI.SetActive(false);
                 GameManager.Instance.GameOver();
+                JetSound.Stop();
                 yield break;
             }
 

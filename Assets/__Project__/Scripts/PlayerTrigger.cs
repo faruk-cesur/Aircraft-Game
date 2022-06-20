@@ -18,6 +18,11 @@ public class PlayerTrigger : MonoBehaviour
             GameManager.Instance.CollectGoldAnimation();
             _player.CheckpointParticle.Play();
             _player.CheckpointScore += 100;
+            _player.CheckpointSound.Play();
+            if (_player.CheckpointList.Count > 0)
+            {
+                _player.CheckpointList[0].SetActive(true);
+            }
         }
     }
 
@@ -34,6 +39,7 @@ public class PlayerTrigger : MonoBehaviour
             _player.CrashParticle.GetComponent<AudioSource>().Play();
             _player.PlayerUI.SetActive(false);
             GameManager.Instance.GameOver();
+            _player.JetSound.Stop();
         }
     }
 }
