@@ -9,6 +9,7 @@ using NaughtyAttributes;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public enum GameState
 {
@@ -176,6 +177,43 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
+    public void CollectGoldMultiple()
+    {
+        foreach (var gold in _goldUISpriteList)
+        {
+            if (!gold.activeSelf)
+            {
+                gold.SetActive(true);
+                gold.transform.SetParent(_goldSpriteParent.transform);
+                gold.transform.DOScale(_goldImage.transform.localScale * 1.5f, 0.35f);
+                gold.transform.DOLocalMove(new Vector3(Random.Range(-250, 250), Random.Range(-250, 250), 0), 0.35f).OnComplete(() =>
+                {
+                    gold.transform.DOScale(Vector3.one, 0.5f);
+                    gold.transform.SetParent(_goldImage.transform);
+                    gold.transform.DOLocalMove(Vector3.zero, 0.5f).OnComplete(() =>
+                    {
+                        CurrentGold++;
+                        PrintGoldText();
+                        gold.transform.SetParent(_goldSpriteParent.transform);
+                        gold.transform.localPosition = Vector3.zero;
+                        gold.SetActive(false);
+                    });
+                });
+                break;
+            }
+        }
+    }
+
+    public IEnumerator CollectMultipleGold(float howMuchGold) // Call this on trigger multiple gold
+    {
+        for (int i = 0; i < howMuchGold; i++)
+        {
+            CollectGoldMultiple();
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
 
     private void SetGoldSpriteList()
     {

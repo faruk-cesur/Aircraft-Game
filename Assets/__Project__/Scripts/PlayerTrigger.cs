@@ -15,7 +15,7 @@ public class PlayerTrigger : MonoBehaviour
         {
             _player.CheckpointList.Remove(other.gameObject);
             Destroy(other.gameObject);
-            GameManager.Instance.CollectGoldAnimation();
+            StartCoroutine(GameManager.Instance.CollectMultipleGold(10f));
             _player.CheckpointParticle.Play();
             _player.CheckpointScore += 100;
             _player.CheckpointSound.Play();

@@ -10,6 +10,12 @@ public class FXDemoController : MonoBehaviour
     public GameObject SnowFX;
     public GameObject AudioFX;
 
+    public void AudioOnly()
+    {
+        TurnOffFX();
+        AudioFX.SetActive(true);
+    }
+
     public void Storm()
     {
         TurnOffFX();

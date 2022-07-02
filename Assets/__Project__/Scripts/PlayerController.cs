@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
     private void RotateAircraftFlying()
     {
-        transform.Rotate(((Vector3.up * (_floatingJoystick.Direction.x)) + (-Vector3.right * _floatingJoystick.Direction.y))); // Rotating Parent Object According To Joystick
+        transform.Rotate(((Vector3.up * (_floatingJoystick.Direction.x)) + (-Vector3.right * _floatingJoystick.Direction.y)) * _player.RotateSpeed); // Rotating Parent Object According To Joystick
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly for parent object
         _aircraftModel.Rotate((-Vector3.forward * _floatingJoystick.Direction.x));
         _aircraftModel.localRotation = Quaternion.Lerp(_aircraftModel.localRotation, Quaternion.Euler(_aircraftModel.localEulerAngles.x, _aircraftModel.localEulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly
@@ -148,8 +148,8 @@ public class PlayerController : MonoBehaviour
 
     private void RotateAircraftOnWheels()
     {
-        transform.Rotate((-Vector3.right * _floatingJoystick.Direction.y)); // Rotating Parent Object According To Joystick
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), Time.deltaTime); // Rotation.Z is resetting smoothly for parent object
+        transform.Rotate(-Vector3.right * (_floatingJoystick.Direction.y * _player.RotateSpeed)); // Rotating Parent Object According To Joystick
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, transform.eulerAngles.y, 0), Time.deltaTime * _player.RotateSpeed * 2); // Rotation.Z is resetting smoothly for parent object
     }
 
     private void PreventAircraftFlip()

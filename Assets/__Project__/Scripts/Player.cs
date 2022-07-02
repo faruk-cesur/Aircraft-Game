@@ -9,6 +9,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [BoxGroup("Player Settings")] public float TakeOffSpeed;
+    [BoxGroup("Player Settings")] public float RotateSpeed;
     [BoxGroup("Player Settings")] public float MultiplySpeedPerSecond;
     [BoxGroup("Player Settings")] public float ScoreDecreaseSpeed = 0.1f;
 
@@ -32,12 +33,14 @@ public class Player : MonoBehaviour
     [BoxGroup("SETUP"), SerializeField] private FXDemoController _fxDemoController;
     private int _warningTimer;
 
+    public GameObject Terrains;
+
     private void Start()
     {
         _warningTimer = 10;
         StartCoroutine(DecreaseScorePerSecond());
         StartCoroutine(ControlWarningText());
-        _fxDemoController.Snow();
+        _fxDemoController.AudioOnly();
     }
 
     private void Update()
@@ -140,5 +143,34 @@ public class Player : MonoBehaviour
 
             yield return new WaitForSeconds(1f);
         }
+    }
+
+    public void SnowOnOff()
+    {
+        if (_fxDemoController.SnowFX.activeSelf)
+        {
+            _fxDemoController.AudioOnly();
+        }
+        else
+        {
+            _fxDemoController.Snow();
+        }
+    }
+
+    public void TerrainsOnOff()
+    {
+        if (Terrains.activeSelf)
+        {
+            Terrains.SetActive(false);
+        }
+        else
+        {
+            Terrains.SetActive(true);
+        }
+    }
+
+    public void Restart()
+    {
+        GameManager.Instance.LoadReachedLevel();
     }
 }
